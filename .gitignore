@@ -1,1 +1,3 @@
-/credentials.json
+credentials.json
+__pycache__
+.vscode
