@@ -1,8 +1,12 @@
+#!/usr/bin/python3
+
+# Standard library
 import json
 import os
 from shutil import rmtree
 from functools import partial
 
+# External packages
 import imap_tools
 from pathvalidate import sanitize_filename
 from progressbar import ProgressBar # progressbar2 library
@@ -32,7 +36,8 @@ def write_out_html(subject, folder_name, body):
     subject = sanitize_filename(subject)
     filename = f"{subject[:50]}.html"
     file_path = enumerate_file_path(os.path.join(folder_name, filename))
-    open(file_path, "w").write(body).close()
+    with open(file_path, "w") as f:
+        f.write(body)
 
 def make_folder_if_absent(path, folder_name):
     full_path = os.path.join(path, folder_name)
@@ -67,7 +72,7 @@ if __name__ == "__main__":
             headers = [h for h in fetch(headers_only=True)]
             if SAVE_FILES:
                 if len(headers)>0:
-                    with ProgressBar(max_value=len(headers)-1,prefix=f"{folder_name}:") as bar:
+                    with ProgressBar(max_value=len(headers)-1,prefix=f"{folder_name}:",redirect_stdout=True) as bar:
                         for i, msg in enumerate(fetch()):
                             # Make folder for the mailbox
                             mailbox_folder = make_folder_if_absent(SAVE_LOCATION,sanitize_filename(folder_name))
@@ -90,6 +95,7 @@ if __name__ == "__main__":
                                 file_path = enumerate_file_path(os.path.join(subject_folder, att.filename))
                                 write_to_file(file_path, att.payload, as_bytes=True)
                             bar.update(i)
+                            print(f'Msg {i} | ',msg.subject)
             else:
                 for msg in headers:
                     print(msg.subject)
