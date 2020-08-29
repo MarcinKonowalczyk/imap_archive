@@ -31,8 +31,8 @@ def enumerate_file_path(path):
         return path
 
 
+# TODO Not pretty, needs improving, especially with the arguments
 def write_out_html(subject, folder_name, body):
-    """Not pretty, needs improving, especially with the arguments"""
     subject = sanitize_filename(subject)
     filename = f"{subject[:50]}.html"
     file_path = enumerate_file_path(os.path.join(folder_name, filename))
