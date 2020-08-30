@@ -1,6 +1,7 @@
 import json
-import imap_tools
 import datetime
+
+import imap_tools
 
 
 def attachment_to_dict(attachment):

@@ -1,0 +1,4 @@
+# Packages required for imap_email_archiver.py
+imap_tools
+pathvalidate
+progressbar2
